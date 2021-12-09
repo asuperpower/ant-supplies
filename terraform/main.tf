@@ -71,7 +71,7 @@ resource "azurerm_cdn_endpoint" "endpoint" {
 
   origin {
     name      = "host"
-    host_name = azurerm_storage_account.storage.primary_web_endpoint
+    host_name = azurerm_storage_account.storage.primary_web_host
   }
 }
 
