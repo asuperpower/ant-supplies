@@ -51,10 +51,6 @@ resource "azurerm_storage_account" "storage" {
     name = "ant.supplies"
   }
 
-  custom_domain {
-    name = "www.ant.supplies"
-  }
-
   static_website {
     index_document = "index.html"
   }
