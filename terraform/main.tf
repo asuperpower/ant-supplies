@@ -12,6 +12,18 @@ provider "azurerm" {
   features {}
 }
 
+provider "random" {
+  version = "~> 2.2.1"
+}
+
+resource "random_string" "longid" {
+  length  = 10
+  upper   = false
+  lower   = true
+  number  = true
+  special = false
+}
+
 locals {
   tags = {
     Environment = var.environment
@@ -28,7 +40,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_storage_account" "storage" {
-  name                = "${var.project_name}-blob"
+  name                = "${var.project_name}blob${random_string.longid.result}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   tags                = local.tags
