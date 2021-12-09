@@ -47,6 +47,14 @@ resource "azurerm_storage_account" "storage" {
   account_kind             = "StorageV2"
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  custom_domain {
+    name = "ant.supplies"
+  }
+
+  custom_domain {
+    name = "www.ant.supplies"
+  }
+
   static_website {
     index_document = "index.html"
   }
