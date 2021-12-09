@@ -1,4 +1,4 @@
-name: Blob storage website CI
+name: Push ant supplies to Azure storage
 
 on:
   push:
