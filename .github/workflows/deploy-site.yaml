@@ -1,0 +1,33 @@
+name: Blob storage website CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: build
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: test
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload-batch --account-name antsuppliesblob  --auth-mode key -d '$web' -s build
+      - name: logout
+        run: |
+          az logout
+        if: always()
