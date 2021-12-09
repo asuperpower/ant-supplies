@@ -55,3 +55,28 @@ resource "azurerm_storage_account" "storage" {
     index_document = "index.html"
   }
 }
+
+resource "azurerm_cdn_profile" "profile" {
+  name                = "${var.project_name}profile"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "Standard_Microsoft"
+}
+
+resource "azurerm_cdn_endpoint" "endpoint" {
+  name                = "${var.project_name}endpoint"
+  profile_name        = azurerm_cdn_profile.profile.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  origin {
+    name      = "host"
+    host_name = azurerm_storage_account.storage.primary_web_endpoint
+  }
+}
+
+resource "azurerm_cdn_endpoint_custom_domain" "domain" {
+  name            = "ant-supplies-custom-domain"
+  cdn_endpoint_id = azurerm_cdn_endpoint.endpoint.id
+  host_name       = "ant.supplies"
+}
