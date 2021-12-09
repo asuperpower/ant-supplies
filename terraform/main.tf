@@ -12,9 +12,7 @@ provider "azurerm" {
   features {}
 }
 
-provider "random" {
-  version = "~> 2.2.1"
-}
+provider "random" {}
 
 resource "random_string" "longid" {
   length  = 10
