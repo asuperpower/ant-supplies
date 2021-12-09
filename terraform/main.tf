@@ -23,6 +23,7 @@ resource "random_string" "longid" {
 }
 
 locals {
+  pname = "${var.project_name}blob${random_string.longid.result}"
   tags = {
     Environment = var.environment
   }
@@ -38,7 +39,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_storage_account" "storage" {
-  name                = "${var.project_name}blob${random_string.longid.result}"
+  name                = substr(local.pname, 0, min(length(local.pname), 15))
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   tags                = local.tags
