@@ -2,8 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// Not an actual functional requirement 
+test('renders alt text of default index', () => {
+	render(<App />);
+	const linkElement = screen.getByAltText(/0/i);
+	expect(linkElement).toBeInTheDocument();
 });
